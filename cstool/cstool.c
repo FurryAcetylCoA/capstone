@@ -116,6 +116,8 @@ static struct {
 	{ "tc162", CS_ARCH_TRICORE, CS_MODE_TRICORE_162 },
 	{ "alpha", CS_ARCH_ALPHA, CS_MODE_LITTLE_ENDIAN },
 	{ "alphabe", CS_ARCH_ALPHA, CS_MODE_BIG_ENDIAN },
+	{ "loongarch32", CS_ARCH_LOONGARCH, CS_MODE_LOONGARCH32 },
+	{ "loongarch64", CS_ARCH_LOONGARCH, CS_MODE_LOONGARCH64 },
 	{ NULL }
 };
 
@@ -325,6 +327,11 @@ static void usage(char *prog)
 		printf("        tc160       tricore V1.6\n");
 		printf("        tc161       tricore V1.6.1\n");
 		printf("        tc162       tricore V1.6.2\n");
+	}
+
+	if (cs_support(CS_ARCH_LOONGARCH)) {
+		printf("        loongarch32 LoongArch32\n");
+		printf("        loongarch64 LoongArch64\n");
 	}
 
 	printf("\nExtra options:\n");
@@ -540,6 +547,10 @@ int main(int argc, char **argv)
 
 				if (cs_support(CS_ARCH_ALPHA)) {
 					printf("alpha=1 ");
+				}
+
+				if (cs_support(CS_ARCH_LOONGARCH)) {
+					printf("loongarch=1 ");
 				}
 
 				printf("\n");

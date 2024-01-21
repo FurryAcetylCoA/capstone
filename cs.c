@@ -1,5 +1,6 @@
 /* Capstone Disassembly Engine */
 /* By Nguyen Anh Quynh <aquynh@gmail.com>, 2013-2019 */
+#include "include/capstone/capstone.h"
 #ifdef _MSC_VER
 #pragma warning(disable:4996)			// disable MSVC's warning on strcpy()
 #pragma warning(disable:28719)		// disable MSVC's warning on strcpy()
@@ -71,6 +72,7 @@
 #include "arch/SH/SHModule.h"
 #include "arch/TriCore/TriCoreModule.h"
 #include "arch/Alpha/AlphaModule.h"
+#include "arch/LoongArch/LoongArchModule.h"
 
 typedef struct cs_arch_config {
 	// constructor initialization
@@ -208,6 +210,12 @@ typedef struct cs_arch_config {
 		ALPHA_option, \
 		~(CS_MODE_LITTLE_ENDIAN | CS_MODE_BIG_ENDIAN), \
 	}
+#define CS_ARCH_CONFIG_LOONGARCH \
+	{ \
+		LoongArch_global_init, \
+		LoongArch_option, \
+		~(CS_MODE_LITTLE_ENDIAN | CS_MODE_LOONGARCH32 | CS_MODE_LOONGARCH64), \
+	}
 
 #ifdef CAPSTONE_USE_ARCH_REGISTRATION
 static cs_arch_config arch_configs[MAX_ARCH];
@@ -309,6 +317,11 @@ static const cs_arch_config arch_configs[MAX_ARCH] = {
 #else
 	{ NULL, NULL, 0 },
 #endif
+#ifdef CAPSTONE_HAS_LOONGARCH
+	CS_ARCH_CONFIG_LOONGARCH,
+#else
+	{ NULL, NULL, 0 },
+#endif
 };
 
 // bitmask of enabled architectures
@@ -369,6 +382,9 @@ static const uint32_t all_arch = 0
 #endif
 #ifdef CAPSTONE_HAS_ALPHA
 	| (1 << CS_ARCH_ALPHA)
+#endif
+#ifdef CAPSTONE_HAS_LOONGARCH
+	| (1 << CS_ARCH_LOONGARCH)
 #endif
 ;
 #endif
@@ -590,6 +606,14 @@ void CAPSTONE_API cs_arch_register_alpha(void)
 }
 
 CAPSTONE_EXPORT
+void CAPSTONE_API cs_arch_register_loongarch(void)
+{
+#if defined(CAPSTONE_USE_ARCH_REGISTRATION) && defined(CAPSTONE_HAS_LOONGARCH)
+	CS_ARCH_REGISTER(LOONGARCH);
+#endif
+}
+
+CAPSTONE_EXPORT
 bool CAPSTONE_API cs_support(int query)
 {
 	if (query == CS_ARCH_ALL)
@@ -603,7 +627,7 @@ bool CAPSTONE_API cs_support(int query)
 				    (1 << CS_ARCH_RISCV) | (1 << CS_ARCH_MOS65XX)    |
 				    (1 << CS_ARCH_WASM)  | (1 << CS_ARCH_BPF)        |
 				    (1 << CS_ARCH_SH)    | (1 << CS_ARCH_TRICORE)    |
-					(1 << CS_ARCH_ALPHA));
+				    (1 << CS_ARCH_ALPHA) | (1 << CS_ARCH_LOONGARCH));
 
 	if ((unsigned int)query < CS_ARCH_MAX)
 		return all_arch & (1 << query);

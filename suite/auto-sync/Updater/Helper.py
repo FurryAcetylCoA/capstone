@@ -140,7 +140,7 @@ def get_header() -> str:
 def run_clang_format(out_paths: list[Path]):
     for out_file in out_paths:
         log.info(f"Format {out_file}")
-        subprocess.run(["clang-format-18", f"-style=file:{get_path('{CS_CLANG_FORMAT_FILE}')}", "-i", out_file])
+        subprocess.run(["clang-format-17", f"-style=file:{get_path('{CS_CLANG_FORMAT_FILE}')}", "-i", out_file])
 
 
 def get_path(config_path: str) -> Path:

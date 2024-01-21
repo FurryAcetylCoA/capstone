@@ -17,6 +17,7 @@
 
   "{BUILD_DIR}": "{AUTO_SYNC_ROOT}/build/",
   "{C_INC_OUT_DIR}": "{BUILD_DIR}/llvm_c_inc/",
-  "{CPP_INC_OUT_DIR}": "{BUILD_DIR}/llvm_cpp_inc/"
+  "{CPP_INC_OUT_DIR}": "{BUILD_DIR}/llvm_cpp_inc/",
+  "{TRANSLATION_OUT_DIR}": "{BUILD_DIR}/translate_out/"
 }
 

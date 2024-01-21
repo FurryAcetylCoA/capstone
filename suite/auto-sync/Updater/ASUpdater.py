@@ -16,6 +16,7 @@ from Helper import get_path, convert_loglevel, check_py_version, fail_exit
 from HeaderPatcher import HeaderPatcher
 from pathlib import Path
 
+log.basicConfig(level = log.DEBUG)
 
 class USteps(StrEnum):
     INC_GEN = "IncGen"
@@ -151,7 +152,7 @@ def parse_args() -> argparse.Namespace:
         description="Capstones architecture module updater.",
     )
     parser.add_argument(
-        "-a", dest="arch", help="Name of target architecture.", choices=["ARM", "PPC", "AArch64", "Alpha"], required=True
+        "-a", dest="arch", help="Name of target architecture.", choices=["ARM", "PPC", "AArch64", "Alpha", "LoongArch"], required=True
     )
     parser.add_argument("-d", dest="no_clean", help="Don't clean build dir before updating.", action="store_true")
     parser.add_argument(

@@ -10,6 +10,7 @@ import argparse
 import difflib as dl
 import logging as log
 import sys
+import os
 
 from CppTranslator.Configurator import Configurator
 from Helper import (
@@ -202,6 +203,8 @@ class Differ:
         """
         log.info("Copy files for editing")
         diff_dir: Path = get_path(self.conf_general["diff_out_dir"])
+        if not os.path.exists(diff_dir):
+            os.makedirs(diff_dir)
         for f in self.translated_files:
             dest = diff_dir.joinpath(f.name)
             copy2(f, dest)

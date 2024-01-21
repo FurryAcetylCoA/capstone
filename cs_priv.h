@@ -12,6 +12,8 @@
 #include "MCInst.h"
 #include "SStream.h"
 
+typedef char * StringRef;
+
 typedef void (*Printer_t)(MCInst *MI, SStream *OS, void *info);
 
 // function to be called after Printer_t

@@ -64,8 +64,8 @@ if(APPLE AND NOT CAPSTONE_BUILD_MACOS_THIN)
     set(CMAKE_OSX_ARCHITECTURES "x86_64;arm64")
 endif()
 
-set(SUPPORTED_ARCHITECTURES ARM AARCH64 M68K MIPS PPC SPARC SYSZ XCORE X86 TMS320C64X M680X EVM MOS65XX WASM BPF RISCV SH TRICORE ALPHA)
-set(SUPPORTED_ARCHITECTURE_LABELS ARM AARCH64 M68K MIPS PowerPC Sparc SystemZ XCore x86 TMS320C64x M680x EVM MOS65XX WASM BPF RISCV SH TriCore Alpha)
+set(SUPPORTED_ARCHITECTURES ARM AARCH64 M68K MIPS PPC SPARC SYSZ XCORE X86 TMS320C64X M680X EVM MOS65XX WASM BPF RISCV SH TRICORE ALPHA LOONGARCH)
+set(SUPPORTED_ARCHITECTURE_LABELS ARM AARCH64 M68K MIPS PowerPC Sparc SystemZ XCore x86 TMS320C64x M680x EVM MOS65XX WASM BPF RISCV SH TriCore Alpha LoongArch)
 
 list(LENGTH SUPPORTED_ARCHITECTURES count)
 math(EXPR count "${count}-1")
@@ -617,6 +617,20 @@ if (CAPSTONE_ALPHA_SUPPORT)
     set(TEST_SOURCES ${TEST_SOURCES} test_alpha.c)
 endif ()
 
+if (CAPSTONE_LOONGARCH_SUPPORT)
+    add_definitions(-DCAPSTONE_HAS_LOONGARCH)
+    set(SOURCES_LOONGARCH
+            arch/LoongArch/LoongArchDisassembler.c
+            arch/LoongArch/LoongArchInstPrinter.c
+            arch/LoongArch/LoongArchMapping.c
+            arch/LoongArch/LoongArchModule.c
+            )
+    set(HEADERS_LOONGARCH
+            arch/LoongArch/LoongArchInstPrinter.h
+            )
+    set(TEST_SOURCES ${TEST_SOURCES} test_loongarch.c)
+endif ()
+
 if (CAPSTONE_OSXKERNEL_SUPPORT)
     add_definitions(-DCAPSTONE_HAS_OSXKERNEL)
 endif()
@@ -642,6 +656,7 @@ set(ALL_SOURCES
     ${SOURCES_SH}
     ${SOURCES_TRICORE}
     ${SOURCES_ALPHA}
+    ${SOURCES_LOONGARCH}
 )
 
 set(ALL_HEADERS
@@ -666,6 +681,7 @@ set(ALL_HEADERS
     ${HEADERS_SH}
     ${HEADERS_TRICORE}
     ${HEADERS_ALPHA}
+    ${HEADERS_LOONGARCH}
 )
 
 ## properties
@@ -730,6 +746,7 @@ source_group("Source\\RISCV" FILES ${SOURCES_RISCV})
 source_group("Source\\SH" FILES ${SOURCES_SH})
 source_group("Source\\TriCore" FILES ${SOURCES_TRICORE})
 source_group("Source\\Alpha" FILES ${SOURCES_ALPHA})
+source_group("Source\\LoongArch" FILES ${SOURCES_LOONGARCH})
 
 source_group("Include\\Common" FILES ${HEADERS_COMMON})
 source_group("Include\\Engine" FILES ${HEADERS_ENGINE})
@@ -752,6 +769,7 @@ source_group("Include\\RISCV" FILES ${HEADERS_RISCV})
 source_group("Include\\SH" FILES ${HEADERS_SH})
 source_group("Include\\TriCore" FILES ${HEADERS_TRICORE})
 source_group("Include\\Alpha" FILES ${HEADERS_ALPHA})
+source_group("Include\\LoongArch" FILES ${HEADERS_LOONGARCH})
 
 ## installation
 if(CAPSTONE_INSTALL)

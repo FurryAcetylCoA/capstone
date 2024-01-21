@@ -151,6 +151,7 @@ typedef enum cs_arch {
 	CS_ARCH_SH,             ///< SH architecture
 	CS_ARCH_TRICORE,	///< TriCore architecture
 	CS_ARCH_ALPHA, 		///< Alpha architecture
+	CS_ARCH_LOONGARCH, 	///< LoongArch architecture
 	CS_ARCH_MAX,
 	CS_ARCH_ALL = 0xFFFF, // All architectures - for cs_support()
 } cs_arch;
@@ -230,6 +231,8 @@ typedef enum cs_mode {
 	CS_MODE_TRICORE_160 = 1 << 5, ///< Tricore 1.6
 	CS_MODE_TRICORE_161 = 1 << 6, ///< Tricore 1.6.1
 	CS_MODE_TRICORE_162 = 1 << 7, ///< Tricore 1.6.2
+	CS_MODE_LOONGARCH32  = 1 << 0,        ///< LoongArch32
+	CS_MODE_LOONGARCH64  = 1 << 1,        ///< LoongArch64
 } cs_mode;
 
 typedef void* (CAPSTONE_API *cs_malloc_t)(size_t size);

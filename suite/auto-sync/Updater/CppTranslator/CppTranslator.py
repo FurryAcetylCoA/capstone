@@ -51,6 +51,7 @@ from CppTranslator.Patches.NamespaceLLVM import NamespaceLLVM
 from CppTranslator.Patches.NamespaceAnon import NamespaceAnon
 from CppTranslator.Patches.NamespaceArch import NamespaceArch
 from CppTranslator.Patches.OutStreamParam import OutStreamParam
+from CppTranslator.Patches.Override import Override
 from CppTranslator.Patches.PredicateBlockFunctions import PredicateBlockFunctions
 from CppTranslator.Patches.PrintAnnotation import PrintAnnotation
 from CppTranslator.Patches.PrintRegImmShift import PrintRegImmShift
@@ -145,6 +146,7 @@ class Translator:
         NamespaceLLVM.__name__: 0,  # ◁─────┤ so they don't match in NamespaceArch.
         NamespaceArch.__name__: 1,  # ──────┘
         PredicateBlockFunctions.__name__: 0,
+        Override.__name__: 0,
         ClassesDef.__name__: 0,  # ◁────────┐ Declarations must be extracted first from the classes.
         MethodTypeQualifier.__name__: 1,  # ┘
         # All previous patches can contain qualified identifiers (Ids with the "::" operator) in their search patterns.
@@ -309,6 +311,8 @@ class Translator:
                     patch = PrintRegImmShift(p)
                 case IsOperandRegImm.__name__:
                     patch = IsOperandRegImm(p)
+                case Override.__name__:
+                    patch = Override(p)
                 case _:
                     log.fatal(f"Patch type {ptype} not in Patch init routine.")
                     exit(1)

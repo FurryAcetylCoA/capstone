@@ -75,6 +75,7 @@ class IncGenerator:
         self.llvm_tblgen: Path = get_path("{LLVM_TBLGEN_BIN}")
         self.output_dir_c_inc = get_path("{C_INC_OUT_DIR}")
         self.output_dir_cpp_inc = get_path("{CPP_INC_OUT_DIR}")
+        self.translation_out_dir = get_path("{TRANSLATION_OUT_DIR}")
         self.check_paths()
 
     def check_paths(self) -> None:
@@ -92,6 +93,9 @@ class IncGenerator:
         if not self.output_dir_cpp_inc.exists():
             log.debug(f"{self.output_dir_cpp_inc} does not exist. Creating it...")
             os.makedirs(self.output_dir_cpp_inc)
+        if not self.translation_out_dir.exists():
+            log.debug(f"{self.translation_out_dir} does not exist. Creating it...")
+            os.makedirs(self.translation_out_dir)
 
     def generate(self) -> None:
         self.gen_incs()
