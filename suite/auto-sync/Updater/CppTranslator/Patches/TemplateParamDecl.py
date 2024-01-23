@@ -11,7 +11,7 @@ class TemplateParamDecl(Patch):
     Example:
 
     Patch   ArrayRef<uint8_t> x
-    to      const uint8_t *x
+    to      const uint8_t *x, size_t xLen
     """
 
     def __init__(self, priority: int):
@@ -40,7 +40,7 @@ class TemplateParamDecl(Patch):
         p_id = get_text(src, param_id.start_byte, param_id.end_byte)
 
         if templ_type == b"ArrayRef":
-            res = b"const " + args.strip(b"<>") + b" *" + p_id
+            res = b"const " + args.strip(b"<>") + b" *" + p_id + b", size_t " + p_id + b"Len"
             return res
         log.fatal(f"Template type {templ_type} not handled as parameter")
         exit(1)

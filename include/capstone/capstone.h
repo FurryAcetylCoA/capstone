@@ -334,21 +334,22 @@ typedef struct cs_opt_skipdata {
 	/// immediately from cs_disasm()
 	/// NOTE: if this callback pointer is NULL, Capstone would skip a number
 	/// of bytes depending on architectures, as following:
-	/// Arm:     2 bytes (Thumb mode) or 4 bytes.
-	/// AArch64: 4 bytes.
-	/// Mips:    4 bytes.
-	/// M680x:   1 byte.
-	/// PowerPC: 4 bytes.
-	/// Sparc:   4 bytes.
-	/// SystemZ: 2 bytes.
-	/// X86:     1 bytes.
-	/// XCore:   2 bytes.
-	/// EVM:     1 bytes.
-	/// RISCV:   4 bytes.
-	/// WASM:    1 bytes.
-	/// MOS65XX: 1 bytes.
-	/// BPF:     8 bytes.
-	/// TriCore: 2 bytes.
+	/// Arm:       2 bytes (Thumb mode) or 4 bytes.
+	/// AArch64:   4 bytes.
+	/// Mips:      4 bytes.
+	/// M680x:     1 byte.
+	/// PowerPC:   4 bytes.
+	/// Sparc:     4 bytes.
+	/// SystemZ:   2 bytes.
+	/// X86:       1 bytes.
+	/// XCore:     2 bytes.
+	/// EVM:       1 bytes.
+	/// RISCV:     4 bytes.
+	/// WASM:      1 bytes.
+	/// MOS65XX:   1 bytes.
+	/// BPF:       8 bytes.
+	/// TriCore:   2 bytes.
+	/// LoongArch: 4 bytes.
 	cs_skipdata_cb_t callback; 	// default value is NULL
 
 	/// User-defined data to be passed to @callback function pointer.
@@ -375,6 +376,7 @@ typedef struct cs_opt_skipdata {
 #include "sh.h"
 #include "tricore.h"
 #include "alpha.h"
+#include "loongarch.h"
 
 #define MAX_IMPL_W_REGS 47
 #define MAX_IMPL_R_REGS 20
@@ -420,6 +422,7 @@ typedef struct cs_detail {
 		cs_sh sh;        ///< SH architecture
 		cs_tricore tricore; ///< TriCore architecture
 		cs_alpha alpha; ///< Alpha architecture
+		cs_loongarch loongarch; ///< LoongArch architecture
 	};
 } cs_detail;
 

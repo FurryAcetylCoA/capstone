@@ -30,12 +30,16 @@
 #include <capstone/platform.h>
 
 #include "LoongArchInstPrinter.h"
+
 #define GET_SUBTARGETINFO_ENUM
 #include "LoongArchGenSubtargetInfo.inc"
-#define GET_REGINFO_ENUM
-#include "LoongArchGenRegisterInfo.inc"
+
 #define GET_INSTRINFO_ENUM
 #include "LoongArchGenInstrInfo.inc"
+
+#define GET_REGINFO_ENUM
+#include "LoongArchGenRegisterInfo.inc"
+
 #define CONCAT(a, b) CONCAT_(a, b)
 #define CONCAT_(a, b) a##_##b
 
@@ -45,12 +49,11 @@
 #define PRINT_ALIAS_INSTR
 #include "LoongArchGenAsmWriter.inc"
 
-bool NumericReg;
-//static cl_opt<bool>
-//	NumericReg("loongarch-numeric-reg",
-//		   cl_desc("Print numeric register names rather than the ABI "
-//			   "names (such as $r0 instead of $zero)"),
-//		   cl_init(false), cl_Hidden);
+// static cl::opt<bool>
+//     NumericReg("loongarch-numeric-reg",
+//                cl::desc("Print numeric register names rather than the ABI "
+//                         "names (such as $r0 instead of $zero)"),
+//                cl::init(false), cl::Hidden);
 
 // The command-line flag above is used by llvm-mc and llc. It can be used by
 // `llvm-objdump`, but we override the value here to handle options passed to
@@ -76,8 +79,9 @@ void printInst(MCInst *MI, uint64_t Address, StringRef Annot, SStream *O)
 
 void printRegName(SStream *O, MCRegister Reg)
 {
+	// always use register alias name to avoid variable arguments
 	SStream_concat1(O, '$');
-	SStream_concat0(O, getRegisterName(Reg, 0));
+	SStream_concat0(O, getRegisterName(Reg, LoongArch_RegAliasName));
 }
 
 void printOperand(MCInst *MI, unsigned OpNo, SStream *O)
@@ -94,7 +98,7 @@ void printOperand(MCInst *MI, unsigned OpNo, SStream *O)
 		return;
 	}
 
-	//MCOperand_getExpr(MO)->print(O, &MAI);
+	MCOperand_getExpr(MO)->print(O, &MAI);
 }
 
 void printAtomicMemOp(MCInst *MI, unsigned OpNo, SStream *O)
@@ -104,9 +108,8 @@ void printAtomicMemOp(MCInst *MI, unsigned OpNo, SStream *O)
 	printRegName(O, MCOperand_getReg(MO));
 }
 
-//const char *getRegisterName(MCRegister Reg)
-//{
-//	// Default print reg alias name
-//	//return getRegisterName(Reg, NumericReg ? LoongArch_NoRegAltName :
-//	//					 LoongArch_RegAliasName);
-//}
+// const char *LoongArchInstPrinter::getRegisterName(MCRegister Reg) {
+//   // Default print reg alias name
+//   return getRegisterName(Reg, NumericReg ? LoongArch::NoRegAltName
+//                                          : LoongArch::RegAliasName);
+// }

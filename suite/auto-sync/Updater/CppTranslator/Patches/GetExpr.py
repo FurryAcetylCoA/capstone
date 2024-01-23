@@ -6,8 +6,8 @@ from CppTranslator.Patches.Patch import Patch
 
 class GetExpr(Patch):
     """
-    Patch   MO.getExpr(...)
-    to      MCOperand_getExpr(MO, ...)
+    Patch   MO.getExpr()
+    to      MCOperand_getExpr(MO)
     """
 
     def __init__(self, priority: int):
@@ -29,10 +29,7 @@ class GetExpr(Patch):
         return "get_expr"
 
     def get_patch(self, captures: [(Node, str)], src: bytes, **kwargs) -> bytes:
-        # Get instruction variable name (MI, Inst)
-        inst_var: Node = captures[1][0]
-        # Arguments of getOperand(...)
-        get_op_args = captures[3][0]
-        inst = get_text(src, inst_var.start_byte, inst_var.end_byte)
-        args = get_text(src, get_op_args.start_byte, get_op_args.end_byte)
-        return b"MCOperand_getExpr(" + inst + b", " + args + b")"
+        # Get operand variable name (MO, MachineOperand)
+        op_var: Node = captures[1][0]
+        op = get_text(src, op_var.start_byte, op_var.end_byte)
+        return b"MCOperand_getExpr(" + op + b")"

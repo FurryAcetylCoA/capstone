@@ -19,15 +19,26 @@ class QualifiedIdentifier(Patch):
     def get_main_capture_name(self) -> str:
         return "qualified_id"
 
-    def get_patch(self, captures: [(Node, str)], src: bytes, **kwargs) -> bytes:
-        if len(captures[0][0].named_children) > 1:
-            identifier = captures[0][0].named_children[1]
-            identifier = get_text(src, identifier.start_byte, identifier.end_byte)
-            namespace = captures[0][0].named_children[0]
+    def get_patch_inner(self, node: Node, src: bytes) -> bytes:
+        if len(node.named_children) > 1:
+            identifier = node.named_children[1]
+            if len(identifier.named_children) > 1:
+                # The namespaces can be nested. E.g. support::endian::read32le
+                # (qualified_identifier
+                #   (namespace_identifier)
+                #   (qualified_identifier (namespace_identifier) (type_identifier))
+                # )
+                identifier = self.get_patch_inner(identifier, src)
+            else:
+                identifier = get_text(src, identifier.start_byte, identifier.end_byte)
+            namespace = node.named_children[0]
             namespace = get_text(src, namespace.start_byte, namespace.end_byte)
         else:
             # The namespace can be omitted. E.g. std::transform(..., ::tolower)
             namespace = b""
-            identifier = captures[0][0].named_children[0]
+            identifier = node.named_children[0]
             identifier = get_text(src, identifier.start_byte, identifier.end_byte)
         return namespace + b"_" + identifier
+
+    def get_patch(self, captures: [(Node, str)], src: bytes, **kwargs) -> bytes:
+        return self.get_patch_inner(captures[0][0], src)

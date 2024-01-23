@@ -36,10 +36,13 @@
 #include "../../MCFixedLenDisassembler.h"
 #include "../../cs_priv.h"
 #include "LoongArchInstPrinter.h"
+
 #define GET_SUBTARGETINFO_ENUM
 #include "LoongArchGenSubtargetInfo.inc"
+
 #define GET_INSTRINFO_ENUM
 #include "LoongArchGenInstrInfo.inc"
+
 #define GET_REGINFO_ENUM
 #include "LoongArchGenRegisterInfo.inc"
 
@@ -48,26 +51,23 @@
 
 #define DEBUG_TYPE "loongarch-disassembler"
 
-// typedef MCDisassembler_DecodeStatus DecodeStatus;
+// typedef MCDisassembler::DecodeStatus DecodeStatus;
 
-DecodeStatus getInstruction(MCInst *Instr, uint64_t *Size, size_t ByteLen, const uint8_t *Bytes,
-			    uint64_t Address, SStream *CStream);
 ;
 // end namespace
 
-//static MCDisassembler *createLoongArchDisassembler(const Target *T,
-//						   MCContext *Ctx)
-//{
-//	return new LoongArchDisassembler(STI, Ctx);
+//static MCDisassembler *createLoongArchDisassembler(const Target &T,
+//                                                   const MCSubtargetInfo &STI,
+//                                                   MCContext &Ctx) {
+//  return new LoongArchDisassembler(STI, Ctx);
 //}
 //
-//extern "C" LLVM_EXTERNAL_VISIBILITY void LLVMInitializeLoongArchDisassembler()
-//{
-//	// Register the disassembler for each target.
-//	TargetRegistry_RegisterMCDisassembler(getTheLoongArch32Target(),
-//					      createLoongArchDisassembler);
-//	TargetRegistry_RegisterMCDisassembler(getTheLoongArch64Target(),
-//					      createLoongArchDisassembler);
+//extern "C" LLVM_EXTERNAL_VISIBILITY void LLVMInitializeLoongArchDisassembler() {
+//  // Register the disassembler for each target.
+//  TargetRegistry::RegisterMCDisassembler(getTheLoongArch32Target(),
+//                                         createLoongArchDisassembler);
+//  TargetRegistry::RegisterMCDisassembler(getTheLoongArch64Target(),
+//                                         createLoongArchDisassembler);
 //}
 
 static DecodeStatus DecodeGPRRegisterClass(MCInst *Inst, uint64_t RegNo,
@@ -120,50 +120,49 @@ static DecodeStatus DecodeFCSRRegisterClass(MCInst *Inst, uint64_t RegNo,
 	return MCDisassembler_Success;
 }
 
-//#define DEFINE_decodeUImmOperand(N, int P = 0) \
-//	static DecodeStatus CONCAT(decodeUImmOperand, CONCAT(N, int P = 0))( \
-//		MCInst * Inst, uint64_t Imm, int64_t Address, \
-//		const void *Decoder) \
-//	{ \
-//		MCOperand_CreateImm0(Inst, (Imm + P)); \
-//		return MCDisassembler_Success; \
-//	}
-//DEFINE_decodeUImmOperand(2, 1);
-//DEFINE_decodeUImmOperand(12);
+#define DEFINE_decodeUImmOperand(N, P) \
+	static DecodeStatus CONCAT(decodeUImmOperand, CONCAT(N, P))( \
+		MCInst * Inst, uint64_t Imm, int64_t Address, \
+		const void *Decoder) \
+	{ \
+		MCOperand_CreateImm0(Inst, (Imm + P)); \
+		return MCDisassembler_Success; \
+	}
+DEFINE_decodeUImmOperand(2, 1);
+DEFINE_decodeUImmOperand(12, 0);
 
-//#define DEFINE_decodeSImmOperand(N, unsigned S = 0) \
-//	static DecodeStatus CONCAT(decodeSImmOperand, \
-//				   CONCAT(N, unsigned S = 0))( \
-//		MCInst * Inst, uint64_t Imm, int64_t Address, \
-//		const void *Decoder) \
-//	{ \
-//		MCOperand_CreateImm0(Inst, (SignExtend64((Imm << S), N + S))); \
-//		return MCDisassembler_Success; \
-//	}
-//DEFINE_decodeSImmOperand(12);
-//DEFINE_decodeSImmOperand(16);
-//DEFINE_decodeSImmOperand(20);
-//DEFINE_decodeSImmOperand(14, 2);
-//DEFINE_decodeSImmOperand(21, 2);
-//DEFINE_decodeSImmOperand(16, 2);
-//DEFINE_decodeSImmOperand(26, 2);
+#define DEFINE_decodeSImmOperand(N, S) \
+	static DecodeStatus CONCAT(decodeSImmOperand, CONCAT(N, S))( \
+		MCInst * Inst, uint64_t Imm, int64_t Address, \
+		const void *Decoder) \
+	{ \
+		MCOperand_CreateImm0(Inst, (SignExtend64((Imm << S), N + S))); \
+		return MCDisassembler_Success; \
+	}
+DEFINE_decodeSImmOperand(12, 0);
+DEFINE_decodeSImmOperand(16, 0);
+DEFINE_decodeSImmOperand(20, 0);
+DEFINE_decodeSImmOperand(14, 2);
+DEFINE_decodeSImmOperand(21, 2);
+DEFINE_decodeSImmOperand(16, 2);
+DEFINE_decodeSImmOperand(26, 2);
 
 #include "LoongArchGenDisassemblerTables.inc"
 
-DecodeStatus getInstruction(MCInst *MI, uint64_t *Size, size_t ByteLen, const uint8_t *Bytes,
-			    uint64_t Address, SStream *CS)
+DecodeStatus getInstruction(MCInst *MI, uint64_t *Size, const uint8_t *Bytes,
+			    size_t BytesLen, uint64_t Address, SStream *CS)
 {
 	uint32_t Insn;
 	DecodeStatus Result;
 
 	// We want to read exactly 4 bytes of data because all LoongArch instructions
 	// are fixed 32 bits.
-	if (ByteLen < 4) {
+	if (Bytes.size() < 4) {
 		*Size = 0;
 		return MCDisassembler_Fail;
 	}
 
-	Insn = (Bytes[3] << 24) | (Bytes[2] << 16) | (Bytes[1] << 8) | (Bytes[0] << 0);
+	Insn = support_endian_read32le(Bytes.data());
 	// Calling the auto-generated decoder function.
 	Result = decodeInstruction_4(DecoderTable32, MI, Insn, Address);
 	*Size = 4;

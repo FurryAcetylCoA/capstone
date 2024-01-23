@@ -255,9 +255,9 @@ def get_LoongArch_includes(filename: str) -> bytes:
                 + b'#include "../../MCDisassembler.h"\n'
                 + b'#include "../../MCFixedLenDisassembler.h"\n'
                 + b'#include "../../cs_priv.h"\n'
-                + b'#include "LoongArchInstPrinter.h"\n'
+                + b'#include "LoongArchInstPrinter.h"\n\n'
                 + b"#define GET_SUBTARGETINFO_ENUM\n"
-                + b'#include "LoongArchGenSubtargetInfo.inc"\n'
+                + b'#include "LoongArchGenSubtargetInfo.inc"\n\n'
                 + b"#define GET_INSTRINFO_ENUM\n"
                 + b'#include "LoongArchGenInstrInfo.inc"\n\n'
                 + b"#define GET_REGINFO_ENUM\n"
@@ -265,7 +265,13 @@ def get_LoongArch_includes(filename: str) -> bytes:
             )
         case "LoongArchInstPrinter.cpp":
             return (
-                b'#include "LoongArchInstPrinter.h"\n'
+                b'#include "LoongArchInstPrinter.h"\n\n'
+                + b"#define GET_SUBTARGETINFO_ENUM\n"
+                + b'#include "LoongArchGenSubtargetInfo.inc"\n\n'
+                + b"#define GET_INSTRINFO_ENUM\n"
+                + b'#include "LoongArchGenInstrInfo.inc"\n\n'
+                + b"#define GET_REGINFO_ENUM\n"
+                + b'#include "LoongArchGenRegisterInfo.inc"\n\n'
             )
         case "LoongArchInstPrinter.h":
             return (

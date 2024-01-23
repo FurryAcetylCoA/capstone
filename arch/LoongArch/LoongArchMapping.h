@@ -7,6 +7,8 @@
 #include "../../include/capstone/capstone.h"
 #include "../../utils.h"
 
+void LoongArch_init_mri(MCRegisterInfo *MRI);
+
 // return name of register in friendly string
 const char *LoongArch_reg_name(csh handle, unsigned int reg);
 
