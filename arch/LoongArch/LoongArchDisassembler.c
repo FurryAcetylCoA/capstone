@@ -35,6 +35,8 @@
 #include "../../MCDisassembler.h"
 #include "../../MCFixedLenDisassembler.h"
 #include "../../cs_priv.h"
+#include "../../utils.h"
+#include "LoongArchDisassemblerExtension.h"
 #include "LoongArchInstPrinter.h"
 
 #define GET_SUBTARGETINFO_ENUM

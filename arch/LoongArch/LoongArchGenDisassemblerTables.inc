@@ -1458,7 +1458,7 @@ static DecodeStatus fname(DecodeStatus S, unsigned Idx, InsnType insn, MCInst *M
     tmp = fieldname(insn, 5, 5); \
     if (DecodeGPRRegisterClass(MI, tmp, Address, Decoder) == MCDisassembler_Fail) { return MCDisassembler_Fail; } \
     tmp = fieldname(insn, 10, 12); \
-    if (decodeSImmOperand_12(MI, tmp, Address, Decoder) == MCDisassembler_Fail) { return MCDisassembler_Fail; } \
+    if (decodeSImmOperand_12_0(MI, tmp, Address, Decoder) == MCDisassembler_Fail) { return MCDisassembler_Fail; } \
     return S; \
   case 31: \
     tmp = fieldname(insn, 0, 5); \
@@ -1466,7 +1466,7 @@ static DecodeStatus fname(DecodeStatus S, unsigned Idx, InsnType insn, MCInst *M
     tmp = fieldname(insn, 5, 5); \
     if (DecodeGPRRegisterClass(MI, tmp, Address, Decoder) == MCDisassembler_Fail) { return MCDisassembler_Fail; } \
     tmp = fieldname(insn, 10, 12); \
-    if (decodeUImmOperand_12(MI, tmp, Address, Decoder) == MCDisassembler_Fail) { return MCDisassembler_Fail; } \
+    if (decodeUImmOperand_12_0(MI, tmp, Address, Decoder) == MCDisassembler_Fail) { return MCDisassembler_Fail; } \
     return S; \
   case 32: \
     tmp = fieldname(insn, 0, 5); \
@@ -1498,7 +1498,7 @@ static DecodeStatus fname(DecodeStatus S, unsigned Idx, InsnType insn, MCInst *M
     tmp = fieldname(insn, 5, 5); \
     if (DecodeGPRRegisterClass(MI, tmp, Address, Decoder) == MCDisassembler_Fail) { return MCDisassembler_Fail; } \
     tmp = fieldname(insn, 10, 12); \
-    if (decodeSImmOperand_12(MI, tmp, Address, Decoder) == MCDisassembler_Fail) { return MCDisassembler_Fail; } \
+    if (decodeSImmOperand_12_0(MI, tmp, Address, Decoder) == MCDisassembler_Fail) { return MCDisassembler_Fail; } \
     return S; \
   case 36: \
     tmp = fieldname(insn, 0, 5); \
@@ -1576,13 +1576,13 @@ static DecodeStatus fname(DecodeStatus S, unsigned Idx, InsnType insn, MCInst *M
     tmp = fieldname(insn, 5, 5); \
     if (DecodeGPRRegisterClass(MI, tmp, Address, Decoder) == MCDisassembler_Fail) { return MCDisassembler_Fail; } \
     tmp = fieldname(insn, 10, 16); \
-    if (decodeSImmOperand_16(MI, tmp, Address, Decoder) == MCDisassembler_Fail) { return MCDisassembler_Fail; } \
+    if (decodeSImmOperand_16_0(MI, tmp, Address, Decoder) == MCDisassembler_Fail) { return MCDisassembler_Fail; } \
     return S; \
   case 46: \
     tmp = fieldname(insn, 0, 5); \
     if (DecodeGPRRegisterClass(MI, tmp, Address, Decoder) == MCDisassembler_Fail) { return MCDisassembler_Fail; } \
     tmp = fieldname(insn, 5, 20); \
-    if (decodeSImmOperand_20(MI, tmp, Address, Decoder) == MCDisassembler_Fail) { return MCDisassembler_Fail; } \
+    if (decodeSImmOperand_20_0(MI, tmp, Address, Decoder) == MCDisassembler_Fail) { return MCDisassembler_Fail; } \
     return S; \
   case 47: \
     tmp = fieldname(insn, 0, 5); \
@@ -1590,7 +1590,7 @@ static DecodeStatus fname(DecodeStatus S, unsigned Idx, InsnType insn, MCInst *M
     tmp = fieldname(insn, 0, 5); \
     if (DecodeGPRRegisterClass(MI, tmp, Address, Decoder) == MCDisassembler_Fail) { return MCDisassembler_Fail; } \
     tmp = fieldname(insn, 5, 20); \
-    if (decodeSImmOperand_20(MI, tmp, Address, Decoder) == MCDisassembler_Fail) { return MCDisassembler_Fail; } \
+    if (decodeSImmOperand_20_0(MI, tmp, Address, Decoder) == MCDisassembler_Fail) { return MCDisassembler_Fail; } \
     return S; \
   case 48: \
     tmp = fieldname(insn, 0, 5); \
@@ -1616,7 +1616,7 @@ static DecodeStatus fname(DecodeStatus S, unsigned Idx, InsnType insn, MCInst *M
     tmp = fieldname(insn, 5, 5); \
     if (DecodeGPRRegisterClass(MI, tmp, Address, Decoder) == MCDisassembler_Fail) { return MCDisassembler_Fail; } \
     tmp = fieldname(insn, 10, 12); \
-    if (decodeSImmOperand_12(MI, tmp, Address, Decoder) == MCDisassembler_Fail) { return MCDisassembler_Fail; } \
+    if (decodeSImmOperand_12_0(MI, tmp, Address, Decoder) == MCDisassembler_Fail) { return MCDisassembler_Fail; } \
     return S; \
   case 51: \
     tmp = fieldname(insn, 0, 5); \
@@ -1624,7 +1624,7 @@ static DecodeStatus fname(DecodeStatus S, unsigned Idx, InsnType insn, MCInst *M
     tmp = fieldname(insn, 5, 5); \
     if (DecodeGPRRegisterClass(MI, tmp, Address, Decoder) == MCDisassembler_Fail) { return MCDisassembler_Fail; } \
     tmp = fieldname(insn, 10, 12); \
-    if (decodeSImmOperand_12(MI, tmp, Address, Decoder) == MCDisassembler_Fail) { return MCDisassembler_Fail; } \
+    if (decodeSImmOperand_12_0(MI, tmp, Address, Decoder) == MCDisassembler_Fail) { return MCDisassembler_Fail; } \
     return S; \
   case 52: \
     tmp = fieldname(insn, 0, 5); \
@@ -1826,3 +1826,6 @@ static DecodeStatus fname(const uint8_t DecodeTable[], MCInst *MI, \
   /* Bogisity detected in disassembler state machine! */ \
 }
 
+FieldFromInstruction(fieldFromInstruction_4, uint32_t)
+DecodeToMCInst(decodeToMCInst_4, fieldFromInstruction_4, uint32_t)
+DecodeInstruction(decodeInstruction_4, fieldFromInstruction_4, decodeToMCInst_4, uint32_t)

@@ -46,4 +46,10 @@ static inline bool strings_match(const char *str0, const char *str1) { return st
 static inline bool is_blank_char(const char c) {
 	return c == ' ' || c == '\t';
 }
+
+// LLVM support::endian::read32le
+static inline uint32_t support_endian_read32le(const uint8_t *P) {
+	return P[0] | (P[1] << 8) | (P[2] << 16) | ((uint32_t)P[3] << 24);
+}
+
 #endif
