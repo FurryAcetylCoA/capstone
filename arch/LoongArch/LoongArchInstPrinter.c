@@ -63,7 +63,7 @@
 bool applyTargetSpecificCLOption(StringRef Opt)
 {
 	if (Opt == "numeric") {
-		NumericReg = true;
+		// NumericReg = true;
 		return true;
 	}
 

@@ -24,6 +24,7 @@ from CppTranslator.Patches.ConstMCOperand import ConstMCOperand
 from CppTranslator.Patches.CppInitCast import CppInitCast
 from CppTranslator.Patches.CreateOperand0 import CreateOperand0
 from CppTranslator.Patches.CreateOperand1 import CreateOperand1
+from CppTranslator.Patches.Data import Data
 from CppTranslator.Patches.DeclarationInConditionClause import DeclarationInConditionalClause
 from CppTranslator.Patches.DecodeInstruction import DecodeInstruction
 from CppTranslator.Patches.DecoderCast import DecoderCast
@@ -65,6 +66,7 @@ from CppTranslator.Patches.STIFeatureBits import STIFeatureBits
 from CppTranslator.Patches.STParameter import SubtargetInfoParam
 from CppTranslator.Patches.SetOpcode import SetOpcode
 from CppTranslator.Patches.SignExtend import SignExtend
+from CppTranslator.Patches.Size import Size
 from CppTranslator.Patches.SizeAssignments import SizeAssignment
 from CppTranslator.Patches.StreamOperation import StreamOperations
 from CppTranslator.Patches.TemplateDeclaration import TemplateDeclaration
@@ -149,6 +151,8 @@ class Translator:
         PredicateBlockFunctions.__name__: 0,
         Override.__name__: 0,
         GetExpr.__name__: 0,
+        Size.__name__: 0,
+        Data.__name__: 0,
         ClassesDef.__name__: 0,  # ◁────────┐ Declarations must be extracted first from the classes.
         MethodTypeQualifier.__name__: 1,  # ┘
         # All previous patches can contain qualified identifiers (Ids with the "::" operator) in their search patterns.
@@ -317,6 +321,10 @@ class Translator:
                     patch = Override(p)
                 case GetExpr.__name__:
                     patch = GetExpr(p)
+                case Size.__name__:
+                    patch = Size(p)
+                case Data.__name__:
+                    patch = Data(p)
                 case _:
                     log.fatal(f"Patch type {ptype} not in Patch init routine.")
                     exit(1)

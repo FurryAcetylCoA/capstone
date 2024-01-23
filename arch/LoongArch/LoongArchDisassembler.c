@@ -157,12 +157,12 @@ DecodeStatus getInstruction(MCInst *MI, uint64_t *Size, const uint8_t *Bytes,
 
 	// We want to read exactly 4 bytes of data because all LoongArch instructions
 	// are fixed 32 bits.
-	if (Bytes.size() < 4) {
+	if (BytesLen < 4) {
 		*Size = 0;
 		return MCDisassembler_Fail;
 	}
 
-	Insn = support_endian_read32le(Bytes.data());
+	Insn = support_endian_read32le(Bytes);
 	// Calling the auto-generated decoder function.
 	Result = decodeInstruction_4(DecoderTable32, MI, Insn, Address);
 	*Size = 4;
