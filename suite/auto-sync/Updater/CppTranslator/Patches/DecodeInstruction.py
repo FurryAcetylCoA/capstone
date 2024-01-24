@@ -33,7 +33,7 @@ class DecodeInstruction(Patch):
         table, mi_inst, opcode_var, address, this, sti = args_text.split(b",")
         is_32bit = table[-2:].decode("utf8") == "32" or opcode_var[-2:].decode("utf8") == "32"
         is_16bit = table[-2:].decode("utf8") == "16" or opcode_var[-2:].decode("utf8") == "16"
-        args = table + b", " + mi_inst + b", " + opcode_var + b", " + address
+        args = table + b", " + mi_inst + b", " + opcode_var + b", " + address + b", NULL"
 
         if is_16bit and not is_32bit:
             return b"decodeInstruction_2(" + args + b")"

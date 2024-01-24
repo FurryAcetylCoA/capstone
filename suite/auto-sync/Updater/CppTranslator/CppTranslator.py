@@ -33,7 +33,6 @@ from CppTranslator.Patches.FallThrough import FallThrough
 from CppTranslator.Patches.FeatureBits import FeatureBits
 from CppTranslator.Patches.FeatureBitsDecl import FeatureBitsDecl
 from CppTranslator.Patches.FieldFromInstr import FieldFromInstr
-from CppTranslator.Patches.GetExpr import GetExpr
 from CppTranslator.Patches.GetNumOperands import GetNumOperands
 from CppTranslator.Patches.GetOpcode import GetOpcode
 from CppTranslator.Patches.GetOperandRegImm import GetOperandRegImm
@@ -150,7 +149,6 @@ class Translator:
         NamespaceArch.__name__: 1,  # ──────┘
         PredicateBlockFunctions.__name__: 0,
         Override.__name__: 0,
-        GetExpr.__name__: 0,
         Size.__name__: 0,
         Data.__name__: 0,
         ClassesDef.__name__: 0,  # ◁────────┐ Declarations must be extracted first from the classes.
@@ -319,8 +317,6 @@ class Translator:
                     patch = IsOperandRegImm(p)
                 case Override.__name__:
                     patch = Override(p)
-                case GetExpr.__name__:
-                    patch = GetExpr(p)
                 case Size.__name__:
                     patch = Size(p)
                 case Data.__name__:

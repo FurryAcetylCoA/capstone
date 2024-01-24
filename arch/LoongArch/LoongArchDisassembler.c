@@ -166,7 +166,7 @@ DecodeStatus getInstruction(MCInst *MI, uint64_t *Size, const uint8_t *Bytes,
 
 	Insn = support_endian_read32le(Bytes);
 	// Calling the auto-generated decoder function.
-	Result = decodeInstruction_4(DecoderTable32, MI, Insn, Address);
+	Result = decodeInstruction_4(DecoderTable32, MI, Insn, Address, NULL);
 	*Size = 4;
 
 	return Result;

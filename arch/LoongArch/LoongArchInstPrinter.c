@@ -94,11 +94,14 @@ void printOperand(MCInst *MI, unsigned OpNo, SStream *O)
 	}
 
 	if (MCOperand_isImm(MO)) {
-		SStream_concat0(O, MCOperand_getImm(MO));
+		// O << MO.getImm();
+		printInt64(O, MCOperand_getImm(MO));
 		return;
 	}
 
-	MCOperand_getExpr(MO)->print(O, &MAI);
+	assert(0 && "Expressions are not supported.");
+	// assert(MO.isExpr() && "Unknown operand kind in printOperand");
+	// MO.getExpr()->print(O, &MAI);
 }
 
 void printAtomicMemOp(MCInst *MI, unsigned OpNo, SStream *O)
