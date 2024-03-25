@@ -2198,7 +2198,7 @@ static void printCustomAliasOperand(
          unsigned PrintMethodIdx,
          SStream *OS) {
 #ifndef CAPSTONE_DIET
-  llvm_unreachable("Unknown PrintMethod kind");
+  // llvm_unreachable("Unknown PrintMethod kind");
 #endif // CAPSTONE_DIET
 }
 
