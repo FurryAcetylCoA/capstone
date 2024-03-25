@@ -169,6 +169,7 @@ set(HEADERS_COMMON
     include/capstone/platform.h
     include/capstone/sh.h
     include/capstone/alpha.h
+    include/capstone/loongarch.h
 )
 
 set(TEST_SOURCES test_basic.c test_detail.c test_skipdata.c test_iter.c)
@@ -627,6 +628,7 @@ if (CAPSTONE_LOONGARCH_SUPPORT)
             )
     set(HEADERS_LOONGARCH
             arch/LoongArch/LoongArchInstPrinter.h
+            arch/Loongarch/LoongArchGenCSMappingInsnName.inc
             )
     set(TEST_SOURCES ${TEST_SOURCES} test_loongarch.c)
 endif ()
