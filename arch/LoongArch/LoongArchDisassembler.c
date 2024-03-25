@@ -151,7 +151,7 @@ DEFINE_decodeSImmOperand(26, 2);
 
 #include "LoongArchGenDisassemblerTables.inc"
 
-DecodeStatus getInstruction(MCInst *MI, uint64_t *Size, const uint8_t *Bytes,
+DecodeStatus getInstruction(MCInst *MI, uint16_t *Size, const uint8_t *Bytes,
 			    size_t BytesLen, uint64_t Address, SStream *CS)
 {
 	uint32_t Insn;
@@ -169,5 +169,13 @@ DecodeStatus getInstruction(MCInst *MI, uint64_t *Size, const uint8_t *Bytes,
 	Result = decodeInstruction_4(DecoderTable32, MI, Insn, Address, NULL);
 	*Size = 4;
 
+	return Result;
+}
+
+DecodeStatus LoongArch_LLVM_getInstruction(csh handle, const uint8_t *Bytes,
+										 size_t ByteLen, MCInst *MI, uint16_t *Size, uint64_t Address,
+										 void *Info) {
+	DecodeStatus Result = MCDisassembler_Fail;
+	Result = getInstruction(MI, Size, Bytes, ByteLen, Address, NULL);
 	return Result;
 }
