@@ -963,6 +963,9 @@ static uint8_t skipdata_size(cs_struct *handle)
 		case CS_ARCH_ALPHA:
 			// Alpha alignment is 4.
 			return 4;
+		case CS_ARCH_LOONGARCH:
+			// LoongArch alignment is 4.
+			return 4;
 	}
 }
 
@@ -1705,6 +1708,11 @@ int CAPSTONE_API cs_op_count(csh ud, const cs_insn *insn, unsigned int op_type)
 		case CS_ARCH_ALPHA:
 			for (i = 0; i < insn->detail->alpha.op_count; i++)
 				if (insn->detail->alpha.operands[i].type == (alpha_op_type)op_type)
+					count++;
+			break;
+		case CS_ARCH_LOONGARCH:
+			for (i = 0; i < insn->detail->loongarch.op_count; i++)
+				if (insn->detail->loongarch.operands[i].type == (loongarch_op_type)op_type)
 					count++;
 			break;
 	}
