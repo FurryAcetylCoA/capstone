@@ -628,7 +628,15 @@ if (CAPSTONE_LOONGARCH_SUPPORT)
             )
     set(HEADERS_LOONGARCH
             arch/LoongArch/LoongArchInstPrinter.h
-            arch/Loongarch/LoongArchGenCSMappingInsnName.inc
+            arch/LoongArch/LoongArchGenCSMappingInsnName.inc
+            arch/LoongArch/LoongArchMapping.h
+            arch/LoongArch/LoongArchDisassembler.h
+            arch/LoongArch/LoongArchGenRegisterInfo.inc
+            arch/LoongArch/LoongArchGenCSFeatureName.inc
+            arch/LoongArch/LoongArchGenSubtargetInfo.inc
+            arch/LoongArch/LoongArchGenInstrInfo.inc
+            arch/LoongArch/LoongArchGenAsmWriter.inc
+            arch/LoongArch/LoongArchGenDisassemblerTables.inc
             )
     set(TEST_SOURCES ${TEST_SOURCES} test_loongarch.c)
 endif ()
