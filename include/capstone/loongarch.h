@@ -213,6 +213,18 @@ typedef enum loongarch_insn_group {
   	LOONGARCH_GRP_BRANCH_RELATIVE, ///< = CS_GRP_BRANCH_RELATIVE
   
   	// Architecture-specific groups
+	// generated content <LoongArchGenCSFeatureEnum.inc> begin
+	LoongArch_FEATURE_IsLA64 = 128,
+	LoongArch_FEATURE_IsLA32,
+	LoongArch_FEATURE_HasBasicF,
+	LoongArch_FEATURE_HasBasicD,
+	LoongArch_FEATURE_HasExtLSX,
+	LoongArch_FEATURE_HasExtLASX,
+	LoongArch_FEATURE_HasExtLVZ,
+	LoongArch_FEATURE_HasExtLBT,
+	LoongArch_FEATURE_HasLaGlobalWithPcrel,
+	LoongArch_FEATURE_HasLaGlobalWithAbs,
+	LoongArch_FEATURE_HasLaLocalWithAbs,
 
   	LOONGARCH_GRP_ENDING,
 } loongarch_insn_group;
