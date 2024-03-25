@@ -150,9 +150,30 @@ const char *LoongArch_insn_name(csh handle, unsigned int id)
 #endif
 }
 
+#ifndef CAPSTONE_DIET
+static const name_map group_name_maps[] = {
+	{LOONGARCH_GRP_INVALID, NULL},
+
+  	{ LOONGARCH_GRP_JUMP, "jump" },
+  	{ LOONGARCH_GRP_CALL, "call" },
+  	{ LOONGARCH_GRP_RET, "return" },
+  	{ LOONGARCH_GRP_INT, "int" },
+  	{ LOONGARCH_GRP_IRET, "iret" },
+  	{ LOONGARCH_GRP_PRIVILEGE, "privilege" },
+  	{ LOONGARCH_GRP_BRANCH_RELATIVE, "branch_relative" },
+
+	// architecture-specific groups
+	#include "LoongArchGenCSFeatureName.inc"
+};
+#endif
+
 const char *LoongArch_group_name(csh handle, unsigned int id)
 {
+#ifndef CAPSTONE_DIET
+	return id2name(group_name_maps, ARR_SIZE(group_name_maps), id);
+#else
 	return NULL;
+#endif
 }
 
 void LoongArch_reg_access(const cs_insn *insn, cs_regs regs_read,
