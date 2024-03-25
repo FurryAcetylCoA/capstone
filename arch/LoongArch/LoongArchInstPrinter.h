@@ -38,7 +38,7 @@
 #define CONCAT_(a, b) a##_##b
 
 bool applyTargetSpecificCLOption(StringRef Opt);
-void printInst(MCInst *MI, uint64_t Address, StringRef Annot, SStream *O);
+void printInst(MCInst *MI, uint64_t Address, const char *Annot, SStream *O);
 void printRegName(SStream *O, MCRegister Reg);
 void printAtomicMemOp(MCInst *MI, unsigned OpNo, SStream *O);
 // std::pair<const char *, uint64_t> getMnemonic(const MCInst *MI) override;

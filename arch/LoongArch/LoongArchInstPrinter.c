@@ -70,7 +70,7 @@ bool applyTargetSpecificCLOption(StringRef Opt)
 	return false;
 }
 
-void printInst(MCInst *MI, uint64_t Address, StringRef Annot, SStream *O)
+void printInst(MCInst *MI, uint64_t Address, const char *Annot, SStream *O)
 {
 	if (!printAliasInstr(MI, Address, O))
 		printInstruction(MI, Address, O);
