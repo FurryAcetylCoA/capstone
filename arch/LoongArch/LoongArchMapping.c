@@ -91,8 +91,31 @@ static const name_map reg_name_maps[] = {
 };
 #endif
 
+#define GET_REGINFO_ENUM
+#define GET_REGINFO_MC_DESC
+#include "LoongArchGenRegisterInfo.inc"
 void LoongArch_init_mri(MCRegisterInfo *MRI)
 {
+	//InitMCRegisterInfo(LoongArchRegDesc, 109, 
+	//					RA, PC, 
+	//					LoongArchMCRegisterClasses, 6, 
+	//					LoongArchRegUnitRoots, 76, 
+	//					LoongArchRegDiffLists, LoongArchLaneMaskLists, 
+	//					LoongArchRegStrings, 
+	//					LoongArchRegClassStrings, 
+	//					LoongArchSubRegIdxLists, 2,
+	//					LoongArchSubRegIdxRanges, LoongArchRegEncodingTable);
+
+	MCRegisterInfo_InitMCRegisterInfo(MRI,
+	  			     LoongArchRegDesc, sizeof(LoongArchRegDesc), 
+					 0, 0,
+                     LoongArchMCRegisterClasses, ARR_SIZE(LoongArchMCRegisterClasses),
+                     0, 0,
+                     LoongArchRegDiffLists,
+                     0,
+                     LoongArchSubRegIdxLists,
+                     ARR_SIZE(LoongArchSubRegIdxLists),
+                     0);
 }
 
 const char *LoongArch_reg_name(csh handle, unsigned int reg)
