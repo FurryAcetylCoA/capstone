@@ -6,6 +6,8 @@
 #ifndef CS_LOONGARCH_DISASSEMBLER_EXTENSION_H
 #define CS_LOONGARCH_DISASSEMBLER_EXTENSION_H
 
+#include "capstone/capstone.h"
+
 bool LoongArch_getFeatureBits(unsigned int mode, unsigned int feature);
 
 #endif // CS_LOONGARCH_DISASSEMBLER_EXTENSION_H
