@@ -1,6 +1,7 @@
 /* Capstone Disassembly Engine */
 /* By Jiajie Chen <c@jia.je>, 2024 */
 
+#include "capstone/loongarch.h"
 #ifdef CAPSTONE_HAS_LOONGARCH
 
 #include <stdio.h>
@@ -14,6 +15,8 @@
 #include "../../cs_simple_types.h"
 
 #include "LoongArchMapping.h"
+#include "LoongArchDisassembler.h"
+#include "LoongArchInstPrinter.h"
 
 #ifndef CAPSTONE_DIET
 static const name_map reg_name_maps[] = {
