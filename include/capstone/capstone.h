@@ -566,6 +566,8 @@ CAPSTONE_EXPORT
 void CAPSTONE_API cs_arch_register_tricore(void);
 CAPSTONE_EXPORT
 void CAPSTONE_API cs_arch_register_alpha(void);
+CAPSTONE_EXPORT
+void CAPSTONE_API cs_arch_register_loongarch(void);
 
 /**
  This API can be used to either ask for archs supported by this library,
