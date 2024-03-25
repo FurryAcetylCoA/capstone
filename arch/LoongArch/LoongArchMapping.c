@@ -94,6 +94,7 @@ static const name_map reg_name_maps[] = {
 #define GET_REGINFO_ENUM
 #define GET_REGINFO_MC_DESC
 #include "LoongArchGenRegisterInfo.inc"
+
 void LoongArch_init_mri(MCRegisterInfo *MRI)
 {
 	//InitMCRegisterInfo(LoongArchRegDesc, 109, 
@@ -186,10 +187,15 @@ bool LoongArch_getInstruction(csh handle, const uint8_t *code, size_t code_len,
 			MCInst *instr, uint16_t *size, uint64_t address,
 			void *info)
 {
+	bool Result = LoongArch_LLVM_getInstruction(handle, code, code_len, instr, size,\
+										 address, info) != MCDisassembler_Fail;
+	return Result;								
 }
 
 void LoongArch_printer(MCInst *MI, SStream *O, void * /* MCRegisterInfo* */ info)
 {
+	printInst(MI, MI->address, "", O);
+
 }
 
 #endif
