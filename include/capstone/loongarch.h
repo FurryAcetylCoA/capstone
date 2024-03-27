@@ -2,7 +2,8 @@
 #define CAPSTONE_LOONGARCH_H
 
 /* Capstone Disassembly Engine */
-/* LoongArch Backend By Jiajie Chen */
+/* LoongArch Backend By Jiajie Chen &
+   Yanglin Xun <xunyanglins@gmail.com> */
 
 #ifdef __cplusplus
 extern "C" {

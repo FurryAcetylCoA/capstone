@@ -1,5 +1,6 @@
 /* Capstone Disassembly Engine */
 /* By Jiajie Chen <c@jia.je>, 2024 */
+/*    Yanglin Xun <xunyanglins@gmail.com>, 2024*/
 #ifndef CS_LOONGARCHDISASSEMBLER_H
 #define CS_LOONGARCHDISASSEMBLER_H
 
